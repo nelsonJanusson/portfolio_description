@@ -1,4 +1,4 @@
-# portfolio_description
+# portfolio Description
 explanation of the architecture of my portfolio website and instructions for how to set it upp locally
 
 [Project Service](https://github.com/nelsonJanusson/portfolio_project_service).
@@ -20,6 +20,7 @@ helm repo add custom-charts https://nelsonjanusson.github.io/portfolio_chart_rep
 helm repo update
 ```
 ##### 3. Start k8s cluster
+
 ```console
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--flannel-backend=none --disable-network-policy' sh -
 ```
