@@ -1,6 +1,11 @@
 # portfolio_description
 explanation of the architecture of my portfolio website and instructions for how to set it upp locally
 
+[Project Service](https://github.com/nelsonJanusson/portfolio_project_service).
+[Helm Chart Repository](https://github.com/nelsonJanusson/portfolio_chart_repo).
+[Dockerhub Container Registry](https://hub.docker.com/repository/docker/nelsonjanusson/portfolio_project/general).
+
+
 ### Setup script explanation
 
 Follow these steps in order to set up the k8s cluster
