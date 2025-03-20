@@ -1,7 +1,7 @@
 # portfolio_description
 explanation of the architecture of my portfolio website and instructions for how to set it upp locally
 
-##### Full setup script
+### Full setup script
 ```console
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 helm repo add cilium https://helm.cilium.io/
