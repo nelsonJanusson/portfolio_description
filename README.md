@@ -27,7 +27,6 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--flannel-backend=none --disabl
 ```console
 sudo chown $USER:$USER /etc/rancher/k3s/k3s.yaml  
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-export CILIUM_NAMESPACE=kube-system
 ```
 ##### 5. Install CDRs for k8s gateway api
 ```console
@@ -42,7 +41,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v
 ```console
 helm install cilium cilium/cilium \
   --version 1.17.2 \
-  --namespace ${CILIUM_NAMESPACE} \
+  --namespace kube-system \
   --set operator.replicas=1 \
   --set kubeProxyReplacement=true \
   --set serviceMesh.enabled=true \
