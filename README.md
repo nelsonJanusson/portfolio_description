@@ -78,7 +78,6 @@ helm repo update
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--flannel-backend=none --disable-network-policy' sh -
 sudo chown $USER:$USER /etc/rancher/k3s/k3s.yaml 
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-export CILIUM_NAMESPACE=kube-system
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_gateways.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml
@@ -87,7 +86,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml
 helm install cilium cilium/cilium \
   --version 1.17.2 \
-  --namespace ${CILIUM_NAMESPACE} \
+  --namespace kube-system \
   --set operator.replicas=1 \
   --set kubeProxyReplacement=true \
   --set serviceMesh.enabled=true \
