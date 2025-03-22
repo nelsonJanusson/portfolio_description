@@ -9,7 +9,7 @@ The backend microservices are written using the springboot framework and kotlin 
 All the custom images required to run the application can be found at in this [dockerhub container registry](https://hub.docker.com/repository/docker/nelsonjanusson/portfolio_project/general).
 
 ## Frontend Architecture
-
+[Frontend](https://github.com/nelsonJanusson/portfolio_frontend)
 
 ## Setup guide
 Follow these steps in order to set up the application. This guide was developed for linux based systems and might not work for other operating systems.
