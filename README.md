@@ -11,9 +11,8 @@ All the custom images required to run the application can be found at in this [d
 ## Frontend Architecture
 
 
-
-### Setup script explanation
-Follow these steps in order to set up the k8s cluster
+## Setup guide
+Follow these steps in order to set up the application. This guide was developed for linux based systems and might not work for other operating systems.
 
 ##### 1. Install helm
 ```console
