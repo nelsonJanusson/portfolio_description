@@ -21,7 +21,7 @@ curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 ##### 2. Install helm repositories
 ```console
 helm repo add cilium https://helm.cilium.io/
-helm repo add custom-charts https://nelsonjanusson.github.io/portfolio_chart_repo/
+helm repo add custom-chart-repo https://nelsonjanusson.github.io/portfolio_chart_repo/
 helm repo update
 ```
 ##### 3. Start k8s cluster
@@ -57,7 +57,7 @@ helm install cilium cilium/cilium \
 ```
 ##### 7. Install custom helm charts
 ```console
-helm install project-service custom-charts/project-service
+helm install backend-deployment custom-chart-repo/backend-deployment
 ```
 ##### 8. Install cilium CLI
 ```console
@@ -73,7 +73,7 @@ rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
 ```console
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 helm repo add cilium https://helm.cilium.io/
-helm repo add custom-charts https://nelsonjanusson.github.io/portfolio_chart_repo/
+helm repo add custom-chart-repo https://nelsonjanusson.github.io/portfolio_chart_repo/
 helm repo update
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--flannel-backend=none --disable-network-policy' sh -
 sudo chown $USER:$USER /etc/rancher/k3s/k3s.yaml 
@@ -94,7 +94,7 @@ helm install cilium cilium/cilium \
   --set hubble.relay.enabled=true \
   --set hubble.ui.enabled=true \
   --set gatewayAPI.enabled=true
-helm install project-service custom-charts/project-service
+helm install backend-deployment custom-chart-repo/backend-deployment
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 CLI_ARCH=amd64
 if [ "$(uname -m)" = "aarch64" ]; then CLI_ARCH=arm64; fi
