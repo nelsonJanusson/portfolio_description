@@ -1,14 +1,15 @@
-# portfolio Description
+# Portfolio Description
 explanation of the architecture of my portfolio website and instructions for how to set it upp locally
 
-##### Microservices
-[Project Service](https://github.com/nelsonJanusson/portfolio_project_service).
+## Backend Architecture
+The backend is running on a k3s kubernetes cluster and uses cilium for observabillity and networking. The cluster also uses helm for managing deployments and pulls charts from a custom [helm chart repository](https://github.com/nelsonJanusson/portfolio_chart_repo). 
+The backend microservices are written using the springboot framework and kotlin language. The complete list of microservices are as follows:  
+- [Project Service](https://github.com/nelsonJanusson/portfolio_project_service).
 
-##### Helm Charts
-[Helm Chart Repository](https://github.com/nelsonJanusson/portfolio_chart_repo).
+All the custom images required to run the application can be found at in this [dockerhub container registry](https://hub.docker.com/repository/docker/nelsonjanusson/portfolio_project/general).
 
-##### Container Registry
-[Dockerhub Container Registry](https://hub.docker.com/repository/docker/nelsonjanusson/portfolio_project/general).
+## Frontend Architecture
+
 
 
 ### Setup script explanation
