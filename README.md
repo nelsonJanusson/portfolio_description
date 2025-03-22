@@ -1,10 +1,13 @@
 # portfolio Description
 explanation of the architecture of my portfolio website and instructions for how to set it upp locally
 
-##### Microservicers
+##### Microservices
 [Project Service](https://github.com/nelsonJanusson/portfolio_project_service).
 
+##### Helm Charts
 [Helm Chart Repository](https://github.com/nelsonJanusson/portfolio_chart_repo).
+
+##### Container Registry
 [Dockerhub Container Registry](https://hub.docker.com/repository/docker/nelsonjanusson/portfolio_project/general).
 
 
