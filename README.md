@@ -57,7 +57,7 @@ helm install cilium cilium/cilium \
 ```
 ##### 7. Install custom helm charts
 ```console
-helm install backend-deployment custom-chart-repo/backend-deployment
+helm install application-deployment custom-chart-repo/application-deployment
 ```
 ##### 8. Install cilium CLI
 ```console
@@ -94,7 +94,7 @@ helm install cilium cilium/cilium \
   --set hubble.relay.enabled=true \
   --set hubble.ui.enabled=true \
   --set gatewayAPI.enabled=true
-helm install backend-deployment custom-chart-repo/backend-deployment
+helm install application-deployment custom-chart-repo/application-deployment
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 CLI_ARCH=amd64
 if [ "$(uname -m)" = "aarch64" ]; then CLI_ARCH=arm64; fi
