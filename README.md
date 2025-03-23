@@ -44,7 +44,23 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_grpcroutes.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml
 ```
-##### 6. Install cilium
+##### 6. Install CloudNativePG operator
+```console
+helm install cnpg cnpg/cloudnative-pg \
+  --namespace cnpg-system \
+  --create-namespace
+echo "⏳ Waiting for CloudNativePG webhook service to be created..."
+until kubectl get svc cnpg-webhook-service -n cnpg-system >/dev/null 2>&1; do
+  echo "⏳ Waiting for cnpg-webhook-service to appear..."
+  sleep 5
+done
+echo "⏳ Waiting for CloudNativePG webhook service to have endpoints..."
+until [[ $(kubectl get endpoints cnpg-webhook-service -n cnpg-system -o jsonpath='{.subsets}') ]]; do
+  echo "⏳ Waiting for cnpg-webhook-service to have endpoints..."
+  sleep 5
+done
+```
+##### 7. Install cilium
 ```console
 helm install cilium cilium/cilium \
   --version 1.17.2 \
@@ -57,14 +73,9 @@ helm install cilium cilium/cilium \
   --set hubble.ui.enabled=true \
   --set gatewayAPI.enabled=true
 ```
-##### 7. Install CloudNativePG operator
-```console
-helm install cloudnative-pg cnpg/cloudnative-pg \
-  --namespace cnpg-system \
-  --create-namespace 
-```
 ##### 8. Install custom helm charts
 ```console
+
 helm install application-deployment custom-chart-repo/application-deployment
 ```
 ##### 9. Install cilium CLI
@@ -96,6 +107,16 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v
 helm install cnpg cnpg/cloudnative-pg \
   --namespace cnpg-system \
   --create-namespace
+echo "⏳ Waiting for CloudNativePG webhook service to be created..."
+until kubectl get svc cnpg-webhook-service -n cnpg-system >/dev/null 2>&1; do
+  echo "⏳ Waiting for cnpg-webhook-service to appear..."
+  sleep 5
+done
+echo "⏳ Waiting for CloudNativePG webhook service to have endpoints..."
+until [[ $(kubectl get endpoints cnpg-webhook-service -n cnpg-system -o jsonpath='{.subsets}') ]]; do
+  echo "⏳ Waiting for cnpg-webhook-service to have endpoints..."
+  sleep 5
+done
 helm install cilium cilium/cilium \
   --version 1.17.2 \
   --namespace kube-system \
