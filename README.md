@@ -2,7 +2,8 @@
 explanation of the architecture of my portfolio website and instructions for how to set it upp locally
 
 ## Backend Architecture
-The backend is running on a k3s kubernetes cluster and uses cilium for observabillity and networking. The cluster also uses helm for managing deployments and pulls charts from a custom [helm chart repository](https://github.com/nelsonJanusson/portfolio_chart_repo). 
+The backend is running on a k3s kubernetes cluster and uses cilium for observabillity and networking. The cluster also uses helm for managing deployments and pulls custom charts from a custom [helm chart repository](https://github.com/nelsonJanusson/portfolio_chart_repo). 
+The backend uses postgress as a database and deploys/manages said database using the [CloudNativePG](https://cloudnative-pg.io/) platform.
 The backend microservices are written using the springboot framework and kotlin language. The complete list of microservices are as follows:  
 - [Project Service](https://github.com/nelsonJanusson/portfolio_project_service)
 
@@ -22,6 +23,7 @@ curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 ```console
 helm repo add cilium https://helm.cilium.io/
 helm repo add custom-chart-repo https://nelsonjanusson.github.io/portfolio_chart_repo/
+helm repo add cnpg https://cloudnative-pg.github.io/charts
 helm repo update
 ```
 ##### 3. Start k8s cluster
@@ -74,6 +76,7 @@ rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 helm repo add cilium https://helm.cilium.io/
 helm repo add custom-chart-repo https://nelsonjanusson.github.io/portfolio_chart_repo/
+helm repo add cnpg https://cloudnative-pg.github.io/charts
 helm repo update
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--flannel-backend=none --disable-network-policy' sh -
 sudo chown $USER:$USER /etc/rancher/k3s/k3s.yaml 
