@@ -93,6 +93,9 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_referencegrants.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_grpcroutes.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml
+helm install cnpg cnpg/cloudnative-pg \
+  --namespace cnpg-system \
+  --create-namespace
 helm install cilium cilium/cilium \
   --version 1.17.2 \
   --namespace kube-system \
@@ -103,9 +106,6 @@ helm install cilium cilium/cilium \
   --set hubble.relay.enabled=true \
   --set hubble.ui.enabled=true \
   --set gatewayAPI.enabled=true
-helm install cnpg cnpg/cloudnative-pg \
-  --namespace cnpg-system \
-  --create-namespace
 helm install application-deployment custom-chart-repo/application-deployment
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 CLI_ARCH=amd64
