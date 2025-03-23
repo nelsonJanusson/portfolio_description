@@ -57,6 +57,13 @@ helm install cilium cilium/cilium \
   --set hubble.ui.enabled=true \
   --set gatewayAPI.enabled=true
 ```
+##### 6. Install CloudNativePG operator
+```console
+helm install cloudnative-pg cnpg/cloudnative-pg \
+  --namespace cnpg-system \
+  --create-namespace \
+  --set config.clusterWide=false
+```
 ##### 7. Install custom helm charts
 ```console
 helm install application-deployment custom-chart-repo/application-deployment
@@ -97,6 +104,10 @@ helm install cilium cilium/cilium \
   --set hubble.relay.enabled=true \
   --set hubble.ui.enabled=true \
   --set gatewayAPI.enabled=true
+helm install cloudnative-pg cnpg/cloudnative-pg \
+  --namespace cnpg-system \
+  --create-namespace \
+  --set config.clusterWide=false
 helm install application-deployment custom-chart-repo/application-deployment
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 CLI_ARCH=amd64
