@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+
+
+# Start k8s cluster
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--flannel-backend=none --disable-network-policy' sh -
+
+# Export environment variables
+sudo chown $USER:$USER /etc/rancher/k3s/k3s.yaml 
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 # Install helm
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
@@ -8,13 +16,6 @@ helm repo add cilium https://helm.cilium.io/
 helm repo add custom-chart-repo https://nelsonjanusson.github.io/portfolio_chart_repo/
 helm repo add cnpg https://cloudnative-pg.github.io/charts
 helm repo update
-
-# Start k8s cluster
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--flannel-backend=none --disable-network-policy' sh -
-
-# Export environment variables
-sudo chown $USER:$USER /etc/rancher/k3s/k3s.yaml 
-export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
 # Install CDRs for k8s gateway api
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml
