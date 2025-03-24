@@ -13,6 +13,7 @@ curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 helm repo add cilium https://helm.cilium.io/
 helm repo add custom-chart-repo https://nelsonjanusson.github.io/portfolio_chart_repo/
 helm repo add cnpg https://cloudnative-pg.github.io/charts
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 
 # Install CDRs for k8s gateway api
@@ -33,9 +34,21 @@ helm install cilium cilium/cilium \
   --set hubble.enabled=true \
   --set hubble.relay.enabled=true \
   --set hubble.ui.enabled=true \
+  --set hubble.metrics.enableOpenMetrics=true \
+  --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}"\
   --set gatewayAPI.enabled=true \
+  --set prometheus.enabled=true \
+  --set operator.prometheus.enabled=true \
   --wait
 
+# Install prometheus
+helm install prometheus prometheus-community/prometheus \
+    --namespace monitoring \
+    --create-namespace \
+    --set alertmanager.persistence.storageClass="local-path" \
+    --set server.persistentVolume.storageClass="local-path"\
+    --wait
+  
 # Install CloudNativePG operator
 helm install cnpg cnpg/cloudnative-pg \
   --namespace cnpg-system \
