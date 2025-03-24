@@ -46,7 +46,7 @@ helm install prometheus prometheus-community/prometheus \
     --namespace monitoring \
     --create-namespace \
     --set alertmanager.persistence.storageClass="local-path" \
-    --set server.persistentVolume.storageClass="local-path"\
+    --set server.persistentVolume.storageClass="local-path" \
     --wait
   
 # Install CloudNativePG operator
