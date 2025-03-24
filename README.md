@@ -13,8 +13,12 @@ All the custom images required to run the application can be found at in this [d
 [Frontend](https://github.com/nelsonJanusson/portfolio_frontend)
 
 ## Setup guide
-Follow these steps in order to set up the application. This guide was developed for linux based systems and might not work for other operating systems.
-
+Running the deploy.sh script in this repository will automatically start the application on your local system, note that the script was developed for linux and might not work for other operating systems.
+To fetch and execute the script you can run the following command:
+```console
+curl https://raw.githubusercontent.com/nelsonJanusson/portfolio_description/refs/heads/main/deploy.sh | bash
+```
+The script will then execute the following steps in the console:
 ##### 1. Install helm
 ```console
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
