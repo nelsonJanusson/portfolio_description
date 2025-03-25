@@ -2,7 +2,6 @@
 
 # Start k8s cluster
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--flannel-backend=none --disable-network-policy' sh -
-until kubectl get nodes &>/dev/null; do sleep 3; done
 echo "k8s api ready"
 
 # Export environment variables
