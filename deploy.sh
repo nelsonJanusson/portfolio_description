@@ -3,14 +3,16 @@
 # Start k8s cluster
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--flannel-backend=none --disable-network-policy' sh -
 until kubectl get nodes &>/dev/null; do sleep 3; done
-echo "K3s ready"
+echo "k8s api ready"
 
 # Export environment variables
 sudo chown $USER:$USER /etc/rancher/k3s/k3s.yaml 
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+echo "k3s.yaml config exported"
 
 # Install helm
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+echo "helm installed"
 
 # Install helm repositories
 helm repo add cilium https://helm.cilium.io/
@@ -18,6 +20,7 @@ helm repo add custom-chart-repo https://nelsonjanusson.github.io/portfolio_chart
 helm repo add cnpg https://cloudnative-pg.github.io/charts
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
+echo "helm repositories installed"
 
 # Install CDRs for k8s gateway api
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml
@@ -27,10 +30,11 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_grpcroutes.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml
 kubectl wait --for=condition=Established crds --all --timeout=60s
+echo "CDRs installed"
 
 # Ensure k3s nodes are ready
 kubectl wait --for=condition=Ready node --all --timeout=120s
-echo "All nodes are Ready."
+echo "k3s nodes ready"
 
 # Install cilium
 helm install cilium cilium/cilium \
@@ -48,6 +52,7 @@ helm install cilium cilium/cilium \
   --set prometheus.enabled=true \
   --set operator.prometheus.enabled=true \
   --wait
+echo "cilium deployed"
 
 # Install prometheus
 helm install prometheus prometheus-community/prometheus \
@@ -56,15 +61,18 @@ helm install prometheus prometheus-community/prometheus \
     --set alertmanager.persistence.storageClass="local-path" \
     --set server.persistentVolume.storageClass="local-path" \
     --wait
+echo "prometheus deployed"
   
 # Install CloudNativePG operator
 helm install cnpg cnpg/cloudnative-pg \
   --namespace cnpg-system \
   --create-namespace \
   --wait
+echo "CloudNativePG operator deployed"
 
 # Install custom helm charts  
 helm install application-deployment custom-chart-repo/application-deployment
+echo "custom charts deployed"
 
 # Install cilium CLI
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
@@ -74,3 +82,5 @@ curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/d
 sha256sum --check cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
 sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
 rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
+echo "cilium cli installed"
+
