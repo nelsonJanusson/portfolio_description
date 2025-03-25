@@ -2,7 +2,7 @@
 
 # Start k8s cluster
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--flannel-backend=none --disable-network-policy' sh -
-echo "k8s api ready"
+echo "k8s installed"
 
 # Export environment variables
 sudo chown $USER:$USER /etc/rancher/k3s/k3s.yaml 
@@ -31,10 +31,6 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v
 kubectl wait --for=condition=Established crds --all --timeout=60s
 echo "CDRs installed"
 
-# Ensure k3s nodes are ready
-kubectl wait --for=condition=Ready node --all --timeout=120s
-echo "k3s nodes ready"
-
 # Install cilium
 helm install cilium cilium/cilium \
   --version 1.17.2 \
@@ -54,13 +50,18 @@ helm install cilium cilium/cilium \
 echo "cilium deployed"
 
 # Install prometheus
-helm install prometheus prometheus-community/prometheus \
+helm install prometheus prometheus-community/kube-prometheus-stack \
     --namespace monitoring \
     --create-namespace \
+    --set alertmanager.persistence.enabled=true \
     --set alertmanager.persistence.storageClass="local-path" \
-    --set server.persistentVolume.storageClass="local-path" \
+    --set alertmanager.persistence.size="10Gi" \
+    --set prometheus.prometheusSpec.storageSpec.volumeClaimTemplate.spec.storageClassName="local-path" \
+    --set prometheus.prometheusSpec.storageSpec.volumeClaimTemplate.spec.resources.requests.storage="20Gi" \
+    --set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false \
+    --set prometheus.prometheusSpec.podMonitorSelectorNilUsesHelmValues=false \
     --wait
-echo "prometheus deployed"
+echo "prometheus and grafana deployed"
   
 # Install CloudNativePG operator
 helm install cnpg cnpg/cloudnative-pg \
